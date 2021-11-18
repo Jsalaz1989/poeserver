@@ -10,6 +10,7 @@ Django = ">=3.0,<4.0"
 psycopg2-binary = ">=2.8"
 coverage = ">=6.1.2"
 django-polls = { path = "wheels/django_polls-0.1.0-py3-none-any.whl" }
+django-upload = { path = "wheels/django_upload-0.1.0-py3-none-any.whl" }
 
 [tool.poetry.dev-dependencies]
 

@@ -22,7 +22,7 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
 #   POETRY_VIRTUALENVS_IN_PROJECT=true \
   POETRY_CACHE_DIR='/var/cache/pypoetry'
 
-# System deps
+# system deps
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
     bash \
@@ -52,6 +52,9 @@ RUN poetry install
 
 # copy project
 COPY . .
+
+# install netcat, required for nc command in entrypoint.sh
+RUN apt-get update && apt-get install -y netcat
 
 # run entrypoint.sh
 ENTRYPOINT ["/code/entrypoint.sh"]

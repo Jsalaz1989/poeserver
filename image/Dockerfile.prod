@@ -1,0 +1,78 @@
+# syntax=docker/dockerfile:1
+
+### BUILD ENV ###
+
+# pull official base image
+FROM python:3.10.0-slim-buster AS venv
+
+# grab arg from docker-compose.yml
+ARG DJANGO_ENV
+
+# set env vars
+ENV DJANGO_ENV=${DJANGO_ENV} \
+  # python
+  PYTHONFAULTHANDLER=1 \
+  PYTHONUNBUFFERED=1 \
+  PYTHONHASHSEED=random \
+  # pip
+  PIP_NO_CACHE_DIR=off \
+  PIP_DISABLE_PIP_VERSION_CHECK=on \
+  PIP_DEFAULT_TIMEOUT=100 \
+  # poetry
+  POETRY_VERSION=1.1.11 \
+#   POETRY_VIRTUALENVS_CREATE=false \
+#   POETRY_VIRTUALENVS_IN_PROJECT=true \
+  POETRY_CACHE_DIR='/var/cache/pypoetry'
+ENV PATH /root/.poetry/bin:$PATH
+
+# system deps
+RUN apt-get update \
+  && apt-get install --no-install-recommends -y \
+    bash \
+    build-essential \
+    curl \
+    gettext \
+    git \
+    libpq-dev \
+    wget \
+  # cleaning cache
+  && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  # install poetry
+  && pip install "poetry==$POETRY_VERSION" && poetry --version
+
+# set work directory
+WORKDIR /code
+
+# copy dependencies
+COPY pyproject.toml /code/
+COPY wheels /code/wheels
+
+# The `--copies` option tells `venv` to copy libs and binaries
+# instead of using links (which could break since we will
+# extract the virtualenv from this image)
+RUN python -m venv --copies /code/.venv
+RUN . /code/.venv/bin/activate && poetry install
+
+
+### PRODUCTION ###
+
+# pull official base image
+FROM python:3.10.0-slim-buster as prod
+
+COPY --from=venv /code/.venv /code/.venv/
+ENV PATH /code/.venv/bin:$PATH
+
+# set work directory
+WORKDIR /code
+
+# # copy entrypoint.sh
+# COPY ./entrypoint.prod.sh /code/
+
+# copy project
+COPY . .
+
+# install netcat, required for nc command in entrypoint.sh
+RUN apt-get update && apt-get install -y netcat
+
+# run entrypoint.sh
+ENTRYPOINT ["/code/entrypoint.prod.sh"]

@@ -5,7 +5,7 @@ services:
         image: "server:prod"
         build:
             target: prod
-            context: .
+            context: ./app
             cache_from:
                 - "server:dev"
                 - "server:latest"

@@ -20,10 +20,11 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
   PIP_DEFAULT_TIMEOUT=100 \
   # poetry
   POETRY_VERSION=1.1.11 \
-#   POETRY_VIRTUALENVS_CREATE=false \
-#   POETRY_VIRTUALENVS_IN_PROJECT=true \
   POETRY_CACHE_DIR='/var/cache/pypoetry'
-ENV PATH /root/.poetry/bin:$PATH
+
+# set paths
+ENV APP_HOME=/home/app/web
+ENV VIRTUAL_ENV=$APP_HOME/.venv
 
 # system deps
 RUN apt-get update \
@@ -35,23 +36,22 @@ RUN apt-get update \
     git \
     libpq-dev \
     wget \
-  # cleaning cache
+  # clean cache
   && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   # install poetry
   && pip install "poetry==$POETRY_VERSION" && poetry --version
 
 # set work directory
-WORKDIR /home/app/web
+WORKDIR $APP_HOME
 
 # copy dependencies
-COPY pyproject.toml /home/app//web
-COPY wheels /home/app/web/wheels
+COPY pyproject.toml $APP_HOME
+COPY wheels $APP_HOME/wheels
 
-# The `--copies` option tells `venv` to copy libs and binaries
-# instead of using links (which could break since we will
-# extract the virtualenv from this image)
-RUN python -m venv --copies /home/app/web/.venv
-RUN . /home/app/web/.venv/bin/activate && poetry install
+# The `--copies` option tells `venv` to copy libs and binaries instead of using links 
+# (which could break since we will extract the virtualenv from this image)
+RUN python -m venv --copies $VIRTUAL_ENV
+RUN . $VIRTUAL_ENV/bin/activate && poetry install
 
 
 ### PRODUCTION ###
@@ -59,26 +59,22 @@ RUN . /home/app/web/.venv/bin/activate && poetry install
 # pull official base image
 FROM python:3.10.0-slim-buster as prod
 
-# create directory for the app user
-RUN mkdir -p /home/app
+# set paths
+ENV APP_HOME=/home/app/web
+ENV VIRTUAL_ENV=$APP_HOME/.venv
+ENV PATH="$APP_HOME:$VIRTUAL_ENV/bin:$PATH"
 
 # create the app user
-# RUN addgroup -S app && adduser -S app -G app
 RUN adduser --system --group app
 
 # create the appropriate directories
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/web
-RUN mkdir $APP_HOME
-RUN mkdir $APP_HOME/staticfiles
-RUN mkdir $APP_HOME/mediafiles
+RUN mkdir $APP_HOME               && \
+    mkdir $APP_HOME/staticfiles   && \ 
+    mkdir $APP_HOME/mediafiles
 WORKDIR $APP_HOME
 
-COPY --from=venv /home/app/web/.venv "$APP_HOME/.venv/"
-
-# activate virtual environment
-ENV VIRTUAL_ENV="$APP_HOME/.venv"
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+# copy venv from previous stage
+COPY --from=venv $VIRTUAL_ENV $VIRTUAL_ENV
 
 # copy project
 COPY . $APP_HOME
@@ -92,5 +88,4 @@ RUN chown -R app:app $APP_HOME
 # change to the app user
 USER app
 
-# run entrypoint.prod.sh
-ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
+ENTRYPOINT ["entrypoint.prod.sh"]

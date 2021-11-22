@@ -11,18 +11,11 @@ then
     echo "PostgreSQL started"
 fi
 
-# poetry run python manage.py flush --no-input
-# poetry run python manage.py migrate
-
-# poetry env info
-
-. .venv/bin/activate
-
+# . .venv/bin/activate
 which python
 # ls -a .venv/lib/python3.10/site-packages
 # ls -la .venv/bin
-
-ls -a ./server
-gunicorn --version
+# ls -a ./server
+# gunicorn --version
 
 exec "$@"

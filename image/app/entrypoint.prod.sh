@@ -11,7 +11,7 @@ then
     echo "PostgreSQL started"
 fi
 
-# . .venv/bin/activate
+. .venv/bin/activate
 which python
 # ls -a .venv/lib/python3.10/site-packages
 # ls -la .venv/bin

@@ -15,7 +15,7 @@ build:
 #         - ./deployment-tasks.sh
 #     image: worker
 run:
-    web: gunicorn server.wsgi:application --bind 0.0.0.0:8000 --log-level debug --access-logfile - --error-logfile -
+    web: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
 #     worker: python myworker.py
 #     asset-syncer:
 #         command:

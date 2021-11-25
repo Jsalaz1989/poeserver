@@ -1,16 +1,16 @@
-setup:
-    config:
-        env_file: .env.prod
-    #     S3_BUCKET: my-example-bucket0
-    # addons:
-    #     - plan: heroku-postgresql
-    #       as: DATABASE
+# setup:
+#     config:
+#         env_file: .env.prod
+#     S3_BUCKET: my-example-bucket0
+# addons:
+#     - plan: heroku-postgresql
+#       as: DATABASE
 build:
     docker:
         web: image/app/Dockerfile.prod
         # worker: worker/Dockerfile.prod
     config:
-        DJANGO_ENV: development
+        DJANGO_ENV: production
 # release:
 #     command:
 #         - ./deployment-tasks.sh

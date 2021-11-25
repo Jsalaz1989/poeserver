@@ -57,6 +57,6 @@ COPY . .
 RUN apt-get update && apt-get install -y netcat
 
 # might be required by Heroku
-# RUN chmod +x entrypoint.sh
+RUN chmod +x entrypoint.sh
 # run entrypoint.sh
 ENTRYPOINT ["/code/entrypoint.sh"]

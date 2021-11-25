@@ -57,5 +57,5 @@ COPY . .
 RUN apt-get update && apt-get install -y netcat
 
 # run entrypoint.sh
-RUN chmod +x code/entrypoint.sh
+RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/code/entrypoint.sh"]

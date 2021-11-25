@@ -7,7 +7,7 @@
 build:
     docker:
         web: image/app/Dockerfile.prod
-        worker: worker/Dockerfile
+        # worker: worker/Dockerfile.prod
     config:
         DJANGO_ENV: development
 # release:

@@ -7,17 +7,17 @@ setup:
           as: DATABASE
 build:
     docker:
-        web: image/app/Dockerfile
+        web: image/app/Dockerfile.prod
         # worker: worker/Dockerfile.prod
     config:
-        DJANGO_ENV: development
+        DJANGO_ENV: production
 # release:
 #     command:
 #         - ./deployment-tasks.sh
 #     image: worker
 run:
-    web: poetry run python -Wd manage.py runserver 0.0.0.0:$PORT
-    # web: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
+    # web: poetry run python -Wd manage.py runserver 0.0.0.0:$PORT
+    web: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
 #     worker: python myworker.py
 #     asset-syncer:
 #         command:

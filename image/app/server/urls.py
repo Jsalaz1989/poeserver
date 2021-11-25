@@ -22,8 +22,12 @@ from django.conf.urls.static import static
 
 from upload.views import image_upload
 
+def index(request):
+    from django.http import HttpResponse
+    return HttpResponse("You are at the index")
 
 urlpatterns = [
+    path('', index),
     path('upload', image_upload, name="upload"),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),

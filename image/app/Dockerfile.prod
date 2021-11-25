@@ -88,4 +88,7 @@ RUN chown -R app:app $APP_HOME
 # change to the app user
 USER app
 
+# required by Heroku
+RUN chmod +x entrypoint.prod.sh
+# run entrypoint.sh
 ENTRYPOINT ["entrypoint.prod.sh"]

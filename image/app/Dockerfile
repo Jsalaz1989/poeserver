@@ -56,6 +56,7 @@ COPY . .
 # install netcat, required for nc command in entrypoint.sh
 RUN apt-get update && apt-get install -y netcat
 
-# run entrypoint.sh
+# might be required by Heroku
 RUN chmod +x entrypoint.sh
+# run entrypoint.sh
 ENTRYPOINT ["/code/entrypoint.sh"]

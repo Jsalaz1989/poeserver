@@ -12,9 +12,9 @@ build:
     config:
         DJANGO_ENV: production
 release:
+    image: web
     command:
         - ./deployment-tasks.sh
-    image: web
 run:
     # web: poetry run python -Wd manage.py runserver 0.0.0.0:$PORT
     web: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -

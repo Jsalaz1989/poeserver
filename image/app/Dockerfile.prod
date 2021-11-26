@@ -89,6 +89,6 @@ RUN chown -R app:app $APP_HOME
 USER app
 
 # required by Heroku
-RUN chmod +x entrypoint.prod.sh
+RUN chmod +x entrypoint.prod.sh && apt-get install -y curl
 # run entrypoint.sh
 ENTRYPOINT ["entrypoint.prod.sh"]

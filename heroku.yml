@@ -11,9 +11,9 @@ build:
         # worker: worker/Dockerfile.prod
     config:
         DJANGO_ENV: production
-# release:
-#     command:
-#         - ./deployment-tasks.sh
+release:
+    command:
+        - ./deployment-tasks.sh
 #     image: worker
 run:
     # web: poetry run python -Wd manage.py runserver 0.0.0.0:$PORT

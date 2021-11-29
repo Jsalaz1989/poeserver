@@ -13,9 +13,10 @@ services:
             args:
                 DJANGO_ENV: development
             dockerfile: Dockerfile
-        command: poetry run python -Wd manage.py runserver 0.0.0.0:8000
+        command: poetry run python -Wd manage.py runserver --nostatic 0.0.0.0:8000
         volumes:
             - ./app:/code/
+            - venv:/code/.venv/ # exclude venv so as not to erase during mount
         ports:
             - 8000:8000
         env_file:
@@ -33,3 +34,4 @@ services:
 
 volumes:
     postgres_data:
+    venv:

@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
 
     # Storages
-    s'storages',
+    'storages',
 
 
     # # DRF

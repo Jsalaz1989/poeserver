@@ -16,12 +16,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('uploaded_at', models.DateTimeField(auto_now_add=True)),
-                ('file', models.FileField(storage=hello_django.storage_backends.PrivateMediaStorage(), upload_to='')),
+                ('file', models.FileField(storage=server.storage_backends.PrivateMediaStorage(), upload_to='')),
             ],
         ),
         migrations.AlterField(
             model_name='upload',
             name='file',
-            field=models.FileField(storage=hello_django.storage_backends.PublicMediaStorage(), upload_to=''),
+            field=models.FileField(storage=server.storage_backends.PublicMediaStorage(), upload_to=''),
         ),
     ]

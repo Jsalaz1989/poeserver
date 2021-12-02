@@ -161,6 +161,7 @@ if USE_S3:
     STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
     STATIC_URL = STATIC_HOST + '/static/'
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
     # # s3 static settings
     # STATIC_LOCATION = 'static'
     # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'

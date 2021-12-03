@@ -1,6 +1,6 @@
 setup:
-    #     config:
-    #         env_file: .env.prod
+        config:
+            env_file: .env.prod
     #     S3_BUCKET: my-example-bucket0
     addons:
         - plan: heroku-postgresql

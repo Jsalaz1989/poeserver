@@ -1,6 +1,7 @@
 #!/bin/sh
 
-xargs -a .env.prod -I {} heroku config:set {}
+ls -a .
+# xargs -a .env.prod -I {} heroku config:set {}
 
 python manage.py makemigrations
 python manage.py migrate

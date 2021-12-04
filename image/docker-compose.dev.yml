@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+    web:
+        image: "server:dev"
+        build:
+            target: build
+            context: ./app
+            cache_from:
+                - "server:dev"
+                - "server:latest"
+                - "*"
+            args:
+                DJANGO_ENV: development
+            dockerfile: Dockerfile.dev
+        command: python -Wd manage.py runserver 0.0.0.0:8000
+        # command: gunicorn server.wsgi:application --bind 0.0.0.0:8000 --log-level debug --access-logfile - --error-logfile -
+        volumes:
+            - ./app:/home/app/web/ # activate hot reloading
+            - venv:/home/app/web/.venv/ # exclude venv so as not to erase during mount
+            - static_volume:/home/app/web/staticfiles
+            - media_volume:/home/app/web/mediafiles
+        expose:
+            - 8000
+        env_file:
+            - ./.env.dev
+        depends_on:
+            - db
+    db:
+        image: postgres:14.0-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            - ./.env.dev.db
+    nginx:
+        build: ./nginx
+        volumes:
+            - ./app:/home/app/web/
+            - venv:/home/app/web/.venv/
+            - static_volume:/home/app/web/staticfiles
+            - media_volume:/home/app/web/mediafiles
+        ports:
+            - 1337:80
+        depends_on:
+            - web
+
+volumes:
+    postgres_data:
+    static_volume:
+    media_volume:
+    venv:

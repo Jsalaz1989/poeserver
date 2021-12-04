@@ -177,6 +177,7 @@ if USE_S3:
 else:
     STATIC_URL = '/staticfiles/'
     STATIC_ROOT = BASE_DIR / 'staticfiles'
+    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     MEDIA_URL = '/mediafiles/'
     MEDIA_ROOT = BASE_DIR / 'mediafiles'
 

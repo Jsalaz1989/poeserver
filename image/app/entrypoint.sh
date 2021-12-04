@@ -14,6 +14,8 @@ fi
 # poetry run python manage.py flush --no-input
 # poetry run python manage.py migrate
 
-poetry env info
+# poetry env info
+ls -a .venv/lib/python3.10/site-packages
+
 
 exec "$@"

@@ -13,11 +13,11 @@ services:
             args:
                 DJANGO_ENV: development
             dockerfile: Dockerfile.dev
-        command: python -Wd manage.py runserver 0.0.0.0:8000
-        # command: gunicorn server.wsgi:application --bind 0.0.0.0:8000 --log-level debug --access-logfile - --error-logfile -
+        # command: python -Wd manage.py runserver 0.0.0.0:8000
+        command: gunicorn server.wsgi:application --bind 0.0.0.0:8000 --log-level debug --access-logfile - --error-logfile -
         volumes:
-            - ./app:/home/app/web/ # activate hot reloading
-            - venv:/home/app/web/.venv/ # exclude venv so as not to erase during mount
+            # - ./app:/home/app/web/ # activate hot reloading
+            # - venv:/home/app/web/.venv/ # exclude venv so as not to erase during mount
             - static_volume:/home/app/web/staticfiles
             - media_volume:/home/app/web/mediafiles
         expose:
@@ -35,8 +35,8 @@ services:
     nginx:
         build: ./nginx
         volumes:
-            - ./app:/home/app/web/
-            - venv:/home/app/web/.venv/
+            # - ./app:/home/app/web/
+            # - venv:/home/app/web/.venv/
             - static_volume:/home/app/web/staticfiles
             - media_volume:/home/app/web/mediafiles
         ports:
@@ -48,4 +48,4 @@ volumes:
     postgres_data:
     static_volume:
     media_volume:
-    venv:
+    # venv:

@@ -11,8 +11,9 @@ then
     echo "PostgreSQL started"
 fi
 
-# poetry run python manage.py flush --no-input
-# poetry run python manage.py migrate
+python manage.py flush --no-input
+python manage.py makemigrations
+python manage.py migrate
 
 # poetry env info
 ls -a .venv/lib/python3.10/site-packages

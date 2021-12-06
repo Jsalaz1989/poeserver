@@ -19,8 +19,8 @@ class StaticFilesTest(TestCase):
         """
         Static files are being served correctly.
         """
-        # EXPECTED_ROOT = '/home/app/web/'
-        EXPECTED_ROOT = 'https://d337ewj4ohwll8.cloudfront.net'
+        EXPECTED_ROOT = '/home/app/web/'
+        # EXPECTED_ROOT = 'https://d337ewj4ohwll8.cloudfront.net'
 
         searched_locations = finders.searched_locations
         root_in_searched_locations = [EXPECTED_ROOT in loc for loc in searched_locations]

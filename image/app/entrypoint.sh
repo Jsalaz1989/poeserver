@@ -17,6 +17,7 @@ python manage.py migrate
 
 # poetry env info
 ls -a .venv/lib/python3.10/site-packages
+ls -a tests
 
 
 exec "$@"

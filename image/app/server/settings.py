@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic', # equivalent to python manage.py runserver --nostatic, allow whitenoise to take over static
     'django.contrib.staticfiles',
 
     # My apps
@@ -147,8 +148,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-
-
 # https://testdriven.io/blog/storing-django-static-and-media-files-on-amazon-s3/
 USE_S3 = os.getenv('USE_S3') == 'TRUE'
 
@@ -177,15 +176,18 @@ if USE_S3:
     # s3 private media settings
     PRIVATE_MEDIA_LOCATION = 'private'
     PRIVATE_FILE_STORAGE = 'server.storage_backends.PrivateMediaStorage'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 else:
+    # STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
     STATIC_URL = '/staticfiles/'
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    # STATICFILES_DIRS = () # apparently must be empty for collectstatic to work
     MEDIA_URL = '/mediafiles/'
     MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 

@@ -7,8 +7,8 @@ from selenium.webdriver import FirefoxOptions
 options = FirefoxOptions()
 options.add_argument("--headless")
 
-EXPECTED_ROOT = '/staticfiles/'
-# EXPECTED_ROOT = 'https://d337ewj4ohwll8.cloudfront.net'
+#EXPECTED_ROOT = '/staticfiles/'
+EXPECTED_ROOT = 'https://d337ewj4ohwll8.cloudfront.net'
 
 
 class MySeleniumTests(StaticLiveServerTestCase):

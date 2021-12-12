@@ -20,6 +20,7 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
   PIP_DEFAULT_TIMEOUT=100 \
   # poetry
   POETRY_VERSION=1.1.11 \
+  POETRY_VIRTUALENVS_IN_PROJECT=true \
   POETRY_CACHE_DIR='/var/cache/pypoetry'
 
 # set paths
@@ -36,6 +37,7 @@ RUN apt-get update \
     git \
     libpq-dev \
     wget \
+    unzip \
   # clean cache
   && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
   # install poetry
@@ -43,6 +45,14 @@ RUN apt-get update \
 
 # set work directory
 WORKDIR $APP_HOME
+
+# download geckodriver
+RUN GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/latest | grep -Po 'v[0-9]+.[0-9]+.[0-9]+'` && \
+    wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
+    mkdir /home/app/web/firefox && \
+    tar -zxf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz -C /home/app/web/firefox && \
+    chmod +x /home/app/web/firefox/geckodriver && \
+    rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
 
 # copy dependencies
 COPY pyproject.toml $APP_HOME
@@ -57,7 +67,7 @@ RUN . $VIRTUAL_ENV/bin/activate && poetry install
 ### PRODUCTION ###
 
 # pull official base image
-FROM python:3.10.0-slim-buster as prod
+FROM python:3.10.0-slim-buster as build
 
 # set paths
 ENV APP_HOME=/home/app/web
@@ -73,11 +83,39 @@ RUN mkdir $APP_HOME               && \
     mkdir $APP_HOME/mediafiles
 WORKDIR $APP_HOME
 
-# copy venv from previous stage
-COPY --from=venv $VIRTUAL_ENV $VIRTUAL_ENV
 
 # copy project
 COPY . $APP_HOME
+
+# copy venv from previous stage
+COPY --from=venv $VIRTUAL_ENV $VIRTUAL_ENV
+
+# RUN mkdir /home/app/web/tests
+RUN mkdir /home/app/web/firefox
+ENV PATH="$APP_HOME/firefox:$PATH"
+COPY --from=venv /home/app/web/firefox/geckodriver /home/app/web/firefox
+RUN chmod +x /home/app/web/firefox/geckodriver
+# RUN ln -s /home/app/web/firefox/firefox/firefox /usr/lib/firefox
+# COPY --from=venv /home/app/web/firefox/firefox/firefox /home/app/web/firefox
+
+RUN FIREFOX_SETUP=firefox-95.0.tar.bz2 && \
+    apt-get update && apt-get purge firefox && apt-get install --no-install-recommends -y \
+      wget bzip2 packagekit-gtk3-module libx11-xcb1 libdbus-glib-1.2 && \
+    wget -O $FIREFOX_SETUP "https://download.mozilla.org/?product=firefox-latest&os=linux64" && \
+    tar xjf $FIREFOX_SETUP -C /opt/ && \
+    ln -s /opt/firefox/firefox /usr/bin/firefox && \
+    rm $FIREFOX_SETUP
+
+# system deps
+# RUN apt-get update \
+#   && apt-get install --no-install-recommends -y \
+#     wget
+# RUN CHROME_SETUP=google-chrome.deb && \
+#     wget -O $CHROME_SETUP "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" && \
+#     dpkg -i $CHROME_SETUP && \
+#     apt-get install -y -f && \
+#     rm $CHROME_SETUP
+
 
 # install netcat, required for nc command in entrypoint.sh
 RUN apt-get update && apt-get install -y netcat
@@ -85,14 +123,11 @@ RUN apt-get update && apt-get install -y netcat
 # chown all the files to the app user
 RUN chown -R app:app $APP_HOME
 
-
-
 # required by Heroku
 RUN chmod +x entrypoint.prod.sh && chmod +x deployment-tasks.sh && apt-get install -y curl
 
 # change to the app user
 USER app
-
 
 # run entrypoint.sh
 ENTRYPOINT ["entrypoint.prod.sh"]

@@ -8,8 +8,8 @@ options = FirefoxOptions()
 options.add_argument("--headless")
 
 #EXPECTED_ROOT = '/staticfiles/'
-EXPECTED_ROOT = 'https://d337ewj4ohwll8.cloudfront.net'
-
+# EXPECTED_ROOT = 'https://d337ewj4ohwll8.cloudfront.net'
+EXPECTED_ROOT = os.getenv('EXPECTED_ROOT')
 
 class MySeleniumTests(StaticLiveServerTestCase):
     fixtures = ['user-data.json']

@@ -78,11 +78,6 @@ COPY --from=venv $VIRTUAL_ENV $VIRTUAL_ENV
 # chown all the files to the app user
 RUN chown -R app:app $APP_HOME
 
-# required by Heroku
-RUN chmod +x entrypoint.dev.sh && \
-    chmod +x deployment-tasks.sh && \
-    apt-get update && apt-get install -y curl
-
 # install netcat, required for nc command in entrypoint.sh
 RUN apt-get update && apt-get install -y netcat
 
@@ -92,10 +87,16 @@ FROM base AS prod
 
 RUN rm $APP_HOME/staticfiles   && \ 
     rm $APP_HOME/mediafiles
+  
+# required by Heroku
+RUN chmod +x entrypoint.prod.sh && \
+    chmod +x deployment-tasks.sh && \
+    apt-get update && apt-get install -y curl
 
 # change to the app user
 USER app
 
+ENTRYPOINT ["entrypoint.prod.sh"]
 
 ### DEV / QA / STAGING ###
 FROM base AS dev
@@ -135,3 +136,5 @@ RUN FIREFOX_SETUP=firefox-95.0.tar.bz2 && \
 
 # change to the app user
 USER app
+
+ENTRYPOINT ["entrypoint.dev.sh"]

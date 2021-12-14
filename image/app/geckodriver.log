@@ -286,3 +286,20 @@ DevTools listening on ws://localhost:54493/devtools/browser/1beca7c5-5279-4e1c-9
 1639522230793	Marionette	INFO	Stopped listening on port 41105
 console.error: services.settings: 
   main/query-stripping Signature failed  TypeError: NetworkError: Network request failed
+1639524543072	geckodriver	INFO	Listening on 127.0.0.1:46363
+1639524543079	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "--remote-debugging-port" "59951" "-no-remote" "-profile" "/tmp/rust_mozprofilefCkLS5"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libpci missing
+[GFX1-]: glxtest: libGL.so.1 missing
+[GFX1-]: glxtest: libEGL missing
+[GFX1-]: No GPUs detected via PCI
+1639524543775	Marionette	INFO	Marionette enabled
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilefCkLS5/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:59951/devtools/browser/3c8fe03e-276f-42e5-8d23-d2424c675ee1
+1639524547035	Marionette	INFO	Listening on port 44059
+1639524547133	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1639524547640	Marionette	INFO	Stopped listening on port 44059
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+

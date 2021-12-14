@@ -13,7 +13,7 @@ services:
             args:
                 DJANGO_ENV: development
             dockerfile: Dockerfile
-        entrypoint: entrypoint.dev.sh
+        # entrypoint: entrypoint.dev.sh
         # command: python -Wd manage.py runserver --nostatic 0.0.0.0:8000
         command: gunicorn server.wsgi:application --bind 0.0.0.0:8000 --reload --log-level debug --access-logfile - --error-logfile -
         volumes:

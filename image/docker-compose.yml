@@ -4,7 +4,7 @@ services:
     web:
         image: "server:dev"
         build:
-            target: development_build
+            target: dev
             context: ./app
             cache_from:
                 - "server:dev"
@@ -13,25 +13,43 @@ services:
             args:
                 DJANGO_ENV: development
             dockerfile: Dockerfile
-        command: poetry run python -Wd manage.py runserver --nostatic 0.0.0.0:8000
+        entrypoint: entrypoint.dev.sh
+        # command: python -Wd manage.py runserver --nostatic 0.0.0.0:8000
+        command: gunicorn server.wsgi:application --bind 0.0.0.0:8000 --reload --log-level debug --access-logfile - --error-logfile -
         volumes:
-            - ./app:/code/
-            - venv:/code/.venv/ # exclude venv so as not to erase during mount
-        ports:
-            - 8000:8000
+            - ./app:/home/app/web/ # activate hot reloading
+            - venv:/home/app/web/.venv/ # exclude venv so as not to erase during mount
+            - gecko:/home/app/web/firefox/ # exclude gecko so as not to erase during mount
+            # - static_volume:/home/app/web/staticfiles
+            - media_volume:/home/app/web/mediafiles
+        expose:
+            - 8000
         env_file:
             - ./.env.dev
         depends_on:
             - db
-
     db:
         image: postgres:14.0-alpine
         volumes:
-            - ./app/data/db:/var/lib/postgresql/data
-        restart: unless-stopped
+            - postgres_data:/var/lib/postgresql/data/
         env_file:
-            - ./.env.dev
+            - ./.env.dev.db
+    nginx:
+        build: ./nginx
+        volumes:
+            - ./app:/home/app/web/
+            - venv:/home/app/web/.venv/
+            - gecko:/home/app/web/firefox/ # exclude gecko so as not to erase during mount
+            # - static_volume:/home/app/web/staticfiles
+            - media_volume:/home/app/web/mediafiles
+        ports:
+            - 1337:80
+        depends_on:
+            - web
 
 volumes:
     postgres_data:
+    # static_volume:
+    media_volume:
     venv:
+    gecko:

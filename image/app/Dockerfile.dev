@@ -91,7 +91,7 @@ COPY . $APP_HOME
 COPY --from=venv $VIRTUAL_ENV $VIRTUAL_ENV
 
 # RUN mkdir /home/app/web/tests
-RUN mkdir /home/app/web/firefox
+# RUN mkdir /home/app/web/firefox
 ENV PATH="$APP_HOME/firefox:$PATH"
 COPY --from=venv /home/app/web/firefox/geckodriver /home/app/web/firefox
 RUN chmod +x /home/app/web/firefox/geckodriver

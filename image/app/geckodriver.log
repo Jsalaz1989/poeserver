@@ -256,3 +256,33 @@ DevTools listening on ws://localhost:59127/devtools/browser/49b92211-fd85-4691-a
 1639151354556	Marionette	INFO	Listening on port 37691
 1639151354644	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
 1639151354858	Marionette	INFO	Stopped listening on port 37691
+1639326073830	geckodriver	INFO	Listening on 127.0.0.1:49257
+1639326073836	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "--remote-debugging-port" "54073" "-no-remote" "-profile" "/tmp/rust_mozprofilewyDFFg"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libpci missing
+[GFX1-]: glxtest: libGL.so.1 missing
+[GFX1-]: glxtest: libEGL missing
+[GFX1-]: No GPUs detected via PCI
+1639326074145	Marionette	INFO	Marionette enabled
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilewyDFFg/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:54073/devtools/browser/bb7a79c0-50be-47f1-b467-0a2d8e91227f
+1639326077580	Marionette	INFO	Listening on port 32831
+1639326077685	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1639326078121	Marionette	INFO	Stopped listening on port 32831
+1639522226023	geckodriver	INFO	Listening on 127.0.0.1:57571
+1639522226581	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--headless" "--remote-debugging-port" "54493" "-no-remote" "-profile" "/tmp/rust_mozprofilefjAtg3"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libpci missing
+[GFX1-]: glxtest: libGL.so.1 missing
+[GFX1-]: glxtest: libEGL missing
+[GFX1-]: No GPUs detected via PCI
+1639522227265	Marionette	INFO	Marionette enabled
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilefjAtg3/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:54493/devtools/browser/1beca7c5-5279-4e1c-92cf-dd90386941f8
+1639522230257	Marionette	INFO	Listening on port 41105
+1639522230323	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1639522230793	Marionette	INFO	Stopped listening on port 41105
+console.error: services.settings: 
+  main/query-stripping Signature failed  TypeError: NetworkError: Network request failed

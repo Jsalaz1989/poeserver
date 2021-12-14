@@ -7,10 +7,16 @@ setup:
           as: DATABASE
 build:
     docker:
-        web: image/app/Dockerfile.prod
+        web: image/app/Dockerfile
         # worker: worker/Dockerfile.prod
     config:
         DJANGO_ENV: production
+build:
+    docker:
+        release:
+            dockerfile: Dockerfile
+            target: prod
+    web: Dockerfile
 release:
     image: web
     command:

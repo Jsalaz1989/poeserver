@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# install netcat, required for nc command in entrypoint.sh
+apt-get update && apt-get install -y netcat
+
 if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."

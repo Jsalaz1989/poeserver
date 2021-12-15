@@ -106,6 +106,7 @@ RUN GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/la
     rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
 ENV PATH="$APP_HOME/firefox:$PATH"
 
+# install firefox
 RUN FIREFOX_SETUP=firefox-95.0.tar.bz2 && \
     apt-get update && apt-get purge firefox && apt-get install --no-install-recommends -y \
       wget bzip2 packagekit-gtk3-module libx11-xcb1 libdbus-glib-1.2 && \
@@ -114,7 +115,6 @@ RUN FIREFOX_SETUP=firefox-95.0.tar.bz2 && \
     ln -s /opt/firefox/firefox /usr/bin/firefox && \
     rm $FIREFOX_SETUP
 
-# change to the app user
 USER app
 
 ENTRYPOINT ["entrypoint.dev.sh"]
@@ -132,7 +132,6 @@ RUN chmod +x entrypoint.prod.sh && \
     chmod +x deployment-tasks.sh && \
     apt-get update && apt-get install -y curl
 
-# change to the app user
 USER app
 
 ENTRYPOINT ["entrypoint.prod.sh"]

@@ -72,7 +72,6 @@ WORKDIR $APP_HOME
 # copy project
 COPY . $APP_HOME
 
-RUN ls -a $APP_HOME && rm -r $APP_HOME/mediafiles
 
 # copy venv from previous stage
 COPY --from=venv $VIRTUAL_ENV $VIRTUAL_ENV
@@ -87,8 +86,8 @@ RUN apt-get update && apt-get install -y netcat
 ### PROD ###
 FROM base AS prod
 
-RUN ls -a $APP_HOME && rm -r $APP_HOME/staticfiles && \
-    ls -a $APP_HOME && rm -r $APP_HOME/mediafiles
+RUN rm -r $APP_HOME/staticfiles && \
+    rm -r $APP_HOME/mediafiles || true
   
 # required by Heroku
 RUN chmod +x entrypoint.prod.sh && \
@@ -100,12 +99,13 @@ USER app
 
 ENTRYPOINT ["entrypoint.prod.sh"]
 
+
 ### DEV / QA / STAGING ###
 FROM base AS dev
 
 # system deps
-RUN apt-get update && \
-  apt-get install --no-install-recommends -y \
+RUN apt-get update \
+  && apt-get install --no-install-recommends -y \
     bash \
     build-essential \
     curl \

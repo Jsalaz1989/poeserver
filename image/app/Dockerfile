@@ -85,7 +85,7 @@ RUN apt-get update && apt-get install -y netcat
 ### PROD ###
 FROM base AS prod
 
-RUN rm -r $APP_HOME/staticfiles   && \ 
+RUN rm -r $APP_HOME/staticfiles \ 
           $APP_HOME/mediafiles
   
 # required by Heroku

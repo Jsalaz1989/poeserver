@@ -116,15 +116,10 @@ RUN apt-get update && \
 # download geckodriver
 RUN GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/latest | grep -Po 'v[0-9]+.[0-9]+.[0-9]+'` && \
     wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
-    # mkdir /home/app/web/firefox && \
     tar -zxf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz -C /home/app/web/firefox && \
     chmod +x /home/app/web/firefox/geckodriver && \
     rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
-
-# RUN mkdir /home/app/web/firefox
 ENV PATH="$APP_HOME/firefox:$PATH"
-# RUN ln -s /home/app/web/firefox/firefox/firefox /usr/lib/firefox
-# COPY --from=venv /home/app/web/firefox/firefox/firefox /home/app/web/firefox
 
 RUN FIREFOX_SETUP=firefox-95.0.tar.bz2 && \
     apt-get update && apt-get purge firefox && apt-get install --no-install-recommends -y \

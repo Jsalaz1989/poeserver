@@ -83,23 +83,6 @@ RUN chown -R app:app $APP_HOME
 RUN apt-get update && apt-get install -y netcat
 
 
-### PROD ###
-FROM base AS prod
-
-RUN rm -r $APP_HOME/staticfiles && \
-    rm -r $APP_HOME/mediafiles || true
-  
-# required by Heroku
-RUN chmod +x entrypoint.prod.sh && \
-    chmod +x deployment-tasks.sh && \
-    apt-get update && apt-get install -y curl
-
-# change to the app user
-USER app
-
-ENTRYPOINT ["entrypoint.prod.sh"]
-
-
 ### DEV / QA / STAGING ###
 FROM base AS dev
 
@@ -135,3 +118,21 @@ RUN FIREFOX_SETUP=firefox-95.0.tar.bz2 && \
 USER app
 
 ENTRYPOINT ["entrypoint.dev.sh"]
+
+
+### PROD ###
+FROM base AS prod
+
+# storage outsourced to CDN and bucket
+RUN rm -r $APP_HOME/staticfiles || true && \
+    rm -r $APP_HOME/mediafiles  || true
+  
+# required by Heroku
+RUN chmod +x entrypoint.prod.sh && \
+    chmod +x deployment-tasks.sh && \
+    apt-get update && apt-get install -y curl
+
+# change to the app user
+USER app
+
+ENTRYPOINT ["entrypoint.prod.sh"]

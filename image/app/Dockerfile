@@ -117,7 +117,7 @@ RUN FIREFOX_SETUP=firefox-95.0.tar.bz2 && \
 # change to the app user
 USER app
 
-ENTRYPOINT ["entrypoint.dev.sh"]
+# ENTRYPOINT ["entrypoint.dev.sh"]
 
 
 ### PROD ###

@@ -101,6 +101,7 @@ RUN apt-get update \
 # download geckodriver
 RUN GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/latest | grep -Po 'v[0-9]+.[0-9]+.[0-9]+'` && \
     wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
+    mkdir /home/app/web/firefox && \
     tar -zxf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz -C /home/app/web/firefox && \
     chmod +x /home/app/web/firefox/geckodriver && \
     rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz

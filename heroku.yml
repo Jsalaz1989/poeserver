@@ -15,7 +15,7 @@ build:
     docker:
         release:
             dockerfile: image/app/Dockerfile
-            target: prod
+            target: dev
         web: image/app/Dockerfile
     config:
         DJANGO_ENV: production

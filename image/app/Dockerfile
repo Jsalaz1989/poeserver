@@ -72,6 +72,8 @@ WORKDIR $APP_HOME
 # copy project
 COPY . $APP_HOME
 
+RUN ls -a $APP_HOME && rm -r $APP_HOME/mediafiles
+
 # copy venv from previous stage
 COPY --from=venv $VIRTUAL_ENV $VIRTUAL_ENV
 

@@ -85,8 +85,8 @@ RUN apt-get update && apt-get install -y netcat
 ### PROD ###
 FROM base AS prod
 
-RUN ls -a $APP_HOME && rm -r $APP_HOME/staticfiles
-RUN ls -a $APP_HOME && rm -r $APP_HOME/mediafiles
+RUN ls -a $APP_HOME && rm -r $APP_HOME/staticfiles && \
+    ls -a $APP_HOME && rm -r $APP_HOME/mediafiles
   
 # required by Heroku
 RUN chmod +x entrypoint.prod.sh && \

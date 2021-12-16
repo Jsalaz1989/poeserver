@@ -13,21 +13,21 @@ setup:
 #         DJANGO_ENV: production
 build:
     docker:
-        release:
-            dockerfile: image/app/Dockerfile
-            target: prod
-        # web:
+        # release:
         #     dockerfile: image/app/Dockerfile
         #     target: prod
+        web:
+            dockerfile: image/app/Dockerfile
+            target: prod
     config:
         DJANGO_ENV: production
 release:
-    image: release
+    image: web
     command:
         - ./deployment-tasks.sh
 run:
     # web: poetry run python -Wd manage.py runserver 0.0.0.0:$PORT
-    release: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
+    web: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
 #     worker: python myworker.py
 #     asset-syncer:
 #         command:

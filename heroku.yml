@@ -16,13 +16,13 @@ build:
         release:
             dockerfile: image/app/Dockerfile
             target: prod
-        web:
-            dockerfile: image/app/Dockerfile
-            target: prod
+        # web:
+        #     dockerfile: image/app/Dockerfile
+        #     target: prod
     config:
         DJANGO_ENV: production
 release:
-    image: web
+    image: release
     command:
         - ./deployment-tasks.sh
 run:

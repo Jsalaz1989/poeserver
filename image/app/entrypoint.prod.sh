@@ -19,6 +19,6 @@ which python
 # ls -a .venv/lib/python3.10/site-packages
 # ls -la .venv/bin
 # ls -a ./server
-# gunicorn --version
+gunicorn --version
 
 exec "$@"

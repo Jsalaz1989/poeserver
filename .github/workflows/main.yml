@@ -39,7 +39,7 @@ jobs:
                   dockerfile_directory: ./image/app/
 
                   # (Optional, default: "Dockerfile")
-                  # Dockerfile name.1
+                  # Dockerfile name.
                   dockerfile_name: Dockerfile
 
                   # (Optional, default: "")

@@ -1,35 +1,35 @@
-setup:
-    # config:
-    #     env_file: .env.prod
-    #     S3_BUCKET: my-example-bucket0
-    addons:
-        - plan: heroku-postgresql
-          as: DATABASE
+# setup:
+#     # config:
+#     #     env_file: .env.prod
+#     #     S3_BUCKET: my-example-bucket0
+#     addons:
+#         - plan: heroku-postgresql
+#           as: DATABASE
+# # build:
+# #     docker:
+# #         web: image/app/Dockerfile
+# #         # worker: worker/Dockerfile.prod
+# #     config:
+# #         DJANGO_ENV: production
 # build:
 #     docker:
-#         web: image/app/Dockerfile
-#         # worker: worker/Dockerfile.prod
+#         # release:
+#         #     dockerfile: image/app/Dockerfile
+#         #     target: prod
+#         web:
+#             dockerfile: image/app/Dockerfile
+#             target: prod
 #     config:
 #         DJANGO_ENV: production
-build:
-    docker:
-        # release:
-        #     dockerfile: image/app/Dockerfile
-        #     target: prod
-        web:
-            dockerfile: image/app/Dockerfile
-            target: prod
-    config:
-        DJANGO_ENV: production
-release:
-    image: web
-    command:
-        - ./deployment-tasks.sh
-run:
-    # web: poetry run python -Wd manage.py runserver 0.0.0.0:$PORT
-    web: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
-#     worker: python myworker.py
-#     asset-syncer:
-#         command:
-#             - python asset-syncer.py
-#         image: worker
+# release:
+#     image: web
+#     command:
+#         - ./deployment-tasks.sh
+# run:
+#     # web: poetry run python -Wd manage.py runserver 0.0.0.0:$PORT
+#     web: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
+# #     worker: python myworker.py
+# #     asset-syncer:
+# #         command:
+# #             - python asset-syncer.py
+# #         image: worker

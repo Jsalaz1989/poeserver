@@ -51,3 +51,4 @@ jobs:
                   # By default, this argument is set to "web".
                   # For more information look at https://devcenter.heroku.com/articles/process-model
                   process_type: web
+              run: gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --reload --log-level debug --access-logfile - --error-logfile -

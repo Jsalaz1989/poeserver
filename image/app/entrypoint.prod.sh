@@ -21,4 +21,6 @@ which python
 # ls -a ./server
 # gunicorn --version
 
-exec "$@"
+gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --reload --log-level debug --access-logfile - --error-logfile -
+
+# exec "$@"

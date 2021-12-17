@@ -16,5 +16,4 @@ ls -a .
 
 gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --reload --log-level debug --access-logfile - --error-logfile -
 
-python manage.py test
 # exec "$@"

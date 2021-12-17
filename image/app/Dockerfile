@@ -94,6 +94,7 @@ RUN rm -r $APP_HOME/staticfiles || true && \
 RUN chmod +x entrypoint.prod.sh && \
     chmod +x deployment-tasks.sh && \
     apt-get update && apt-get install -y curl
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 USER app
 

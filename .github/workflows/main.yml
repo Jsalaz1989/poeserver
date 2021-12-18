@@ -26,3 +26,5 @@ jobs:
                   dockerfile_name: Dockerfile
                   docker_options: "--no-cache --target prod"
                   process_type: web
+            - name: Test
+              run: python manage.py test

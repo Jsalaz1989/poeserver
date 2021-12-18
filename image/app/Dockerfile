@@ -93,7 +93,7 @@ RUN rm -r $APP_HOME/staticfiles || true && \
 # required by Heroku
 RUN chmod +x entrypoint.prod.sh && \
     chmod +x deployment-tasks.sh && \
-    apt-get update && apt-get install -y curl
+    apt-get update && apt-get install -y curl bash
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 USER app
